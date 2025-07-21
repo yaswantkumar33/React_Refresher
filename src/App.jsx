@@ -1,6 +1,7 @@
 import {useState, useEffect, Profiler} from 'react'
 import './App.css';
 import Search from '../src/Components/Search.jsx';
+import MovieCard from "./Components/MovieCard.jsx";
 
 const API_KEY_TMDB = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -65,9 +66,9 @@ function App() {
                     <h1>All Movies</h1>
                     {loading ? (<p className="text-white">Loading.......</p>) : errormsg ? (
                             <p className="text-center">Error</p>) :
-                        (<ul className="grid grid-cols-3">
-                            {MovieList.length > 0 ? MovieList.map((movie) => (
-                                <li key={movie.id} className="text-white m-2 p-2 border-2">{movie.title}</li>
+                        (<ul className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            {MovieList.length > 0 ? MovieList.map((movie, index) => (
+                                <MovieCard movie_data={movie} key={index} id={index}/>
                             )) : (<p>Moies Are Not avaliable</p>)}
 
                         </ul>)}
