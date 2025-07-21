@@ -1,4 +1,4 @@
-import {useState, useEffect, Profiler} from 'react'
+import {useState, useEffect} from 'react'
 import './App.css';
 import Search from '../src/Components/Search.jsx';
 import MovieCard from "./Components/MovieCard.jsx";
