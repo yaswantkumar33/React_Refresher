@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, Profiler} from 'react'
 import './App.css';
 import Search from '../src/Components/Search.jsx';
 
@@ -7,6 +7,8 @@ const API_KEY_TMDB = import.meta.env.VITE_TMDB_API_KEY;
 function App() {
     const [search, setSearch] = useState('');
     const [errormsg, setErrormsg] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [MovieList, setMovieList] = useState([]);
 
     const API_OPTIONS = {
         method: 'GET',
@@ -17,19 +19,20 @@ function App() {
     };
     const Fectch_Movies = async () => {
         const Endpoint = `${import.meta.env.VITE_TMDB_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+        setLoading(true);
         try {
-            console.log(API_OPTIONS);
             const response = await fetch(Endpoint, API_OPTIONS);
-
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            // console.log('response', response);
-            const data = await response.json();  // 👈 THIS is what you need to log
-            console.log("Fetched Data:", data); // ✅ Now you'll see the full movie list
+            const data = await response.json();
+            console.log(data.results);
+            setMovieList(data.results);
+            setLoading(false);
         } catch (e) {
             console.log("This is the Error Occurred", e);
             setErrormsg("Oops something went wrong and movies are not rendered");
+            setLoading(false);
         }
     };
 
@@ -44,6 +47,7 @@ function App() {
     const SearchTermSet = (searchterm) => {
         setSearch(searchterm);
     }
+
     return (
         <main>
 
@@ -59,11 +63,17 @@ function App() {
                 {/*<h3 className="text-white">{search}</h3>*/}
                 <section className="text-center mt-8 mb-6s">
                     <h1>All Movies</h1>
-                    <p className="text-red-500">{errormsg && errormsg}</p>
+                    {loading ? (<p className="text-white">Loading.......</p>) : errormsg ? (
+                            <p className="text-center">Error</p>) :
+                        (<ul className="grid grid-cols-3">
+                            {MovieList.length > 0 ? MovieList.map((movie) => (
+                                <li key={movie.id} className="text-white m-2 p-2 border-2">{movie.title}</li>
+                            )) : (<p>Moies Are Not avaliable</p>)}
+
+                        </ul>)}
+
                 </section>
             </div>
-
-
         </main>
     )
 }
