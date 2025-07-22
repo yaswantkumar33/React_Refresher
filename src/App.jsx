@@ -62,6 +62,9 @@ function App() {
                     <Search search={search} setsearch={SearchTermSet}/>
                 </header>
                 {/*<h3 className="text-white">{search}</h3>*/}
+                <section>
+                    <h1>Popular Movies</h1>
+                </section>
                 <section className="text-center mt-8 mb-6s">
                     <h1>All Movies</h1>
                     {loading ? (<p className="text-white">Loading.......</p>) : errormsg ? (
