@@ -18,12 +18,15 @@ function App() {
             Authorization: `Bearer ${API_KEY_TMDB}`,
         },
     };
-    const Fectch_Movies = async () => {
-        const Endpoint = `${import.meta.env.VITE_TMDB_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+    const Fectch_Movies = async (search_query = "") => {
+        console.log("Search Query:", search_query);
+        const Endpoint = search_query ? `${import.meta.env.VITE_TMDB_BASE_URL}/search/movie?query=${encodeURIComponent(search_query)}`
+            : `${import.meta.env.VITE_TMDB_BASE_URL}/discover/movie?sort_by=popularity.desc`;
         setLoading(true);
         try {
             const response = await fetch(Endpoint, API_OPTIONS);
             if (!response.ok) {
+
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
@@ -39,12 +42,12 @@ function App() {
 
     useEffect(() => {
         try {
-            Fectch_Movies()
+            Fectch_Movies(search);
         } catch (e) {
             console.log(e, "This is the Error Occuried")
             setErrormsg("Oops something went wrong and movies are rendered")
         }
-    }, [])
+    }, [search])
     const SearchTermSet = (searchterm) => {
         setSearch(searchterm);
     }

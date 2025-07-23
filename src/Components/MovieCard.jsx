@@ -10,7 +10,9 @@ const MovieCard = ({movie_data, id}) => {
             <div className="content">
                 <div className="rating">
                     <img src={star}
-                         alt=""/><span>{(movie_data.vote_average / 2).toFixed(1)}</span> • <span>{movie_data.original_language} • {movie_data.release_date.split("-")[0]}</span>
+                         alt=""/><p>{(movie_data.vote_average / 2).toFixed(1)}</p>  <span>•</span>
+                    <p>{movie_data.original_language}</p> <span>•</span> <p>{movie_data.release_date.split("-")[0]}</p>
+                    <span>•</span> <p>Movie</p>
                 </div>
             </div>
 
