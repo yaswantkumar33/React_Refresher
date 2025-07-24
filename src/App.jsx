@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import './App.css';
 import Search from '../src/Components/Search.jsx';
 import MovieCard from "./Components/MovieCard.jsx";
+import {useDebounce} from "react-use";
 
 const API_KEY_TMDB = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -10,7 +11,11 @@ function App() {
     const [errormsg, setErrormsg] = useState('');
     const [loading, setLoading] = useState(false);
     const [MovieList, setMovieList] = useState([]);
+    const [debounce_search_term, setdebounce_search_term] = useState('');
 
+    useDebounce(() => {
+        setdebounce_search_term(search)
+    }, 500, [search])
     const API_OPTIONS = {
         method: 'GET',
         headers: {
@@ -42,12 +47,12 @@ function App() {
 
     useEffect(() => {
         try {
-            Fectch_Movies(search);
+            Fectch_Movies(debounce_search_term);
         } catch (e) {
             console.log(e, "This is the Error Occuried")
             setErrormsg("Oops something went wrong and movies are rendered")
         }
-    }, [search])
+    }, [debounce_search_term])
     const SearchTermSet = (searchterm) => {
         setSearch(searchterm);
     }
