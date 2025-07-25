@@ -3,6 +3,7 @@ import './App.css';
 import Search from '../src/Components/Search.jsx';
 import MovieCard from "./Components/MovieCard.jsx";
 import {useDebounce} from "react-use";
+import {SearchCount} from './appwrite.js'
 
 const API_KEY_TMDB = import.meta.env.VITE_TMDB_API_KEY;
 
@@ -37,6 +38,7 @@ function App() {
             const data = await response.json();
             console.log(data.results);
             setMovieList(data.results);
+            SearchCount();
             setLoading(false);
         } catch (e) {
             console.log("This is the Error Occurred", e);
