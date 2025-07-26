@@ -16,7 +16,7 @@ function App() {
 
     useDebounce(() => {
         setdebounce_search_term(search)
-    }, 500, [search])
+    }, 700, [search])
     const API_OPTIONS = {
         method: 'GET',
         headers: {
@@ -38,7 +38,9 @@ function App() {
             const data = await response.json();
             console.log(data.results);
             setMovieList(data.results);
-            SearchCount();
+            if (search_query && data.results.length > 0) {
+                await SearchCount(search_query, data.results[0]);
+            }
             setLoading(false);
         } catch (e) {
             console.log("This is the Error Occurred", e);
